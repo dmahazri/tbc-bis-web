@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Loon BiS — TBC Best in Slot</title>
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body>
+    <header class="app-header">
+      <div class="brand">
+        <span class="logo-mark">⚔</span>
+        <span class="brand-name">Loon BiS</span>
+        <span class="subtitle">TBC Classic Best in Slot</span>
+      </div>
+
+      <div class="toolbar">
+        <div class="search-wrap">
+          <span class="search-icon" aria-hidden="true">🔍</span>
+          <input
+            id="search-input"
+            class="search-input"
+            type="search"
+            placeholder="Search items or sources…"
+            autocomplete="off"
+          />
+        </div>
+        <select id="phase-select" class="select toolbar-select" aria-label="Select phase"></select>
+        <select id="slot-select" class="select toolbar-select" aria-label="Filter by slot">
+          <option value="all">All slots</option>
+        </select>
+        <select id="area-select" class="select toolbar-select" aria-label="Filter by area">
+          <option value="all">All areas</option>
+        </select>
+      </div>
+    </header>
+
+    <main class="layout">
+      <aside class="sidebar" aria-label="Selection controls">
+        <section class="control-group">
+          <h2>View</h2>
+          <div id="view-tabs" class="view-tabs" role="tablist"></div>
+        </section>
+
+        <section id="class-group" class="control-group">
+          <h2>Class</h2>
+          <ul id="class-list" class="pick-list class-list"></ul>
+        </section>
+      </aside>
+
+      <section class="content">
+        <div id="result-header" class="result-header"></div>
+        <div id="bis-list" class="bis-list"></div>
+      </section>
+    </main>
+
+    <footer class="app-footer">
+      <p>
+        Fan-made tool inspired by the “Loon BiS” addon. Item data is a
+        community-sourced reference and may differ from your patch — verify on
+        <a href="https://www.wowhead.com/tbc" target="_blank" rel="noopener">Wowhead</a>.
+      </p>
+    </footer>
+
+    <script>
+      window.whTooltips = { colorLinks: true, iconizeLinks: true, renameLinks: false };
+    </script>
+    <script src="https://wow.zamimg.com/widgets/power.js"></script>
+    <script type="module" src="js/main.js"></script>
+  </body>
+</html>
