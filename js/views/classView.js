@@ -95,13 +95,14 @@ export function renderClassView() {
 
   const slotsToShow =
     state.slotId === "all" ? SLOTS : SLOTS.filter((s) => s.id === state.slotId);
+  const maxPerSlot = state.slotId === "all" ? 2 : 5;
 
   let rendered = 0;
   slotsToShow.forEach((slot) => {
     const entries = (data[slot.id] || []).filter(matchesFilters);
     if (!entries.length) return;
 
-    const optionsHtml = entries.slice(0, 4).map(optionHtml).join("");
+    const optionsHtml = entries.slice(0, maxPerSlot).map(optionHtml).join("");
     const isActiveSlot = state.slotId === slot.id;
 
     const block = document.createElement("div");

@@ -93,13 +93,31 @@ export function renderItemView() {
     <h2>Item Lookup</h2>
     <div class="phase-tag">Every item and the classes / specs it is BiS for</div>
   `;
+  renderItemList();
+}
+
+/** Render only the item-card list for the current filters. Split from
+ * renderItemView so changing the slot filter doesn't rebuild the header or
+ * trigger a full route re-render. */
+export function renderItemList() {
+  els.bisList.innerHTML = "";
+
+  // Don't render the full catalogue up front: require either a slot filter
+  // or a search of at least 3 characters before listing items.
+  const query = state.search.trim();
+  if (state.slotId === "all" && query.length < 3) {
+    els.bisList.innerHTML = `
+      <div class="empty-state">
+        <span class="big">🔍</span>
+        Search for an item (3+ letters) or pick a slot to see results.
+      </div>`;
+    return;
+  }
 
   const records = getItemIndex()
     .filter(itemMatchesSearch)
     .map((rec) => ({ rec, usages: rec.usages.filter(usageMatchesFilters) }))
     .filter((x) => x.usages.length > 0);
-
-  els.bisList.innerHTML = "";
 
   if (records.length === 0) {
     els.bisList.innerHTML = `

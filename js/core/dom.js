@@ -4,6 +4,8 @@ export const els = {
   viewTabs: document.getElementById("view-tabs"),
   classGroup: document.getElementById("class-group"),
   classList: document.getElementById("class-list"),
+  slotGroup: document.getElementById("slot-group"),
+  slotList: document.getElementById("slot-list"),
   phaseSelect: document.getElementById("phase-select"),
   slotSelect: document.getElementById("slot-select"),
   areaSelect: document.getElementById("area-select"),

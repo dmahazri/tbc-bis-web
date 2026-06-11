@@ -56,6 +56,25 @@ export function renderSlotOptions() {
   els.slotSelect.value = state.slotId;
 }
 
+const ICON_BASE = "https://wow.zamimg.com/images/wow/icons/small";
+
+/** Slot side menu (item view only): an "All Slots" entry plus one row per
+ * slot, each shown as "[icon] › Name". Mirrors the class side menu. */
+export function renderSlotMenu() {
+  els.slotList.innerHTML = "";
+  const rows = [{ id: "all", name: "All Slots", icon: null }, ...SLOTS];
+  rows.forEach((slot) => {
+    const li = document.createElement("li");
+    li.dataset.id = slot.id;
+    li.classList.toggle("active", slot.id === state.slotId);
+    const icon = slot.icon
+      ? `<img class="slot-icon" alt="" loading="lazy" src="${ICON_BASE}/${slot.icon}.jpg" />`
+      : `<span class="slot-icon slot-icon-all" aria-hidden="true">★</span>`;
+    li.innerHTML = `${icon}<span class="slot-name">${slot.name}</span>`;
+    els.slotList.appendChild(li);
+  });
+}
+
 function specData() {
   return (
     (BIS[state.classId] &&
@@ -96,10 +115,13 @@ export function renderAreaOptions() {
   els.areaSelect.value = state.areaId;
 }
 
-/** Toggle which controls are visible for the current view. Phase only
- * applies in class view, so its toolbar select is hidden in item view. */
+/** Toggle which controls are visible for the current view. The class side
+ * menu and phase/slot toolbar selects apply to class view; the slot side
+ * menu replaces the slot dropdown in item view. */
 export function syncSidebarForView() {
   const isClass = state.view === "class";
   els.classGroup.hidden = !isClass;
+  els.slotGroup.hidden = isClass;
   els.phaseSelect.hidden = !isClass;
+  els.slotSelect.hidden = !isClass;
 }

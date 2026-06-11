@@ -246,21 +246,21 @@ const PHASES = [
 const PHASE_IDS = PHASES.map((p) => p.id);
 
 const SLOTS = [
-  { id: "head", name: "Head" },
-  { id: "neck", name: "Neck" },
-  { id: "shoulders", name: "Shoulders" },
-  { id: "back", name: "Back" },
-  { id: "chest", name: "Chest" },
-  { id: "wrist", name: "Wrist" },
-  { id: "hands", name: "Hands" },
-  { id: "waist", name: "Waist" },
-  { id: "legs", name: "Legs" },
-  { id: "feet", name: "Feet" },
-  { id: "rings", name: "Rings" },
-  { id: "trinkets", name: "Trinkets" },
-  { id: "mainhand", name: "Main Hand" },
-  { id: "offhand", name: "Off Hand" },
-  { id: "ranged", name: "Ranged / Relic" },
+  { id: "head", name: "Head", icon: "inv_helmet_03" },
+  { id: "neck", name: "Neck", icon: "inv_jewelry_necklace_07" },
+  { id: "shoulders", name: "Shoulders", icon: "inv_shoulder_09" },
+  { id: "back", name: "Back", icon: "inv_misc_cape_18" },
+  { id: "chest", name: "Chest", icon: "inv_chest_chain" },
+  { id: "wrist", name: "Wrist", icon: "inv_bracer_07" },
+  { id: "hands", name: "Hands", icon: "inv_gauntlets_04" },
+  { id: "waist", name: "Waist", icon: "inv_belt_07" },
+  { id: "legs", name: "Legs", icon: "inv_pants_03" },
+  { id: "feet", name: "Feet", icon: "inv_boots_chain_05" },
+  { id: "rings", name: "Rings", icon: "inv_jewelry_ring_03" },
+  { id: "trinkets", name: "Trinkets", icon: "inv_jewelry_talisman_05" },
+  { id: "mainhand", name: "Main Hand", icon: "inv_sword_04" },
+  { id: "offhand", name: "Off Hand", icon: "inv_shield_04" },
+  { id: "ranged", name: "Ranged / Relic", icon: "inv_weapon_bow_07" },
 ];
 const SLOT_IDS = SLOTS.map((s) => s.id);
 
@@ -372,7 +372,7 @@ export function ref(id, tier) {
     (p) => `  { id: ${jsString(p.id)}, name: ${jsString(p.name)}, detail: ${jsString(p.detail)} },`
   ).join("\n");
   const slotsJs = SLOTS.map(
-    (s) => `  { id: ${jsString(s.id)}, name: ${jsString(s.name)} },`
+    (s) => `  { id: ${jsString(s.id)}, name: ${jsString(s.name)}, icon: ${jsString(s.icon)} },`
   ).join("\n");
   const classesJs = classes
     .map((c) => {
