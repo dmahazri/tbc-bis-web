@@ -473,6 +473,25 @@ body {
   border: 1px solid rgba(240, 180, 41, 0.4);
 }
 
+/* tank role modifiers (Threat / Mitigation / Stamina) */
+.tier-thrt {
+  background: rgba(220, 80, 60, 0.16);
+  color: #f08a7a;
+  border-color: rgba(220, 80, 60, 0.45);
+}
+
+.tier-mit {
+  background: rgba(160, 110, 220, 0.16);
+  color: #c19bf0;
+  border-color: rgba(160, 110, 220, 0.45);
+}
+
+.tier-stam {
+  background: rgba(80, 150, 230, 0.16);
+  color: #7db4f0;
+  border-color: rgba(80, 150, 230, 0.45);
+}
+
 .rank-num {
   font-size: 11px;
   color: var(--text-faint);

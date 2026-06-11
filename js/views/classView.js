@@ -3,6 +3,7 @@ import { state, getClass } from "../core/state.js";
 import { els } from "../core/dom.js";
 import { areaOf } from "../core/areas.js";
 import { wowheadLink, refreshTooltips } from "../core/wowhead.js";
+import { tierBadgeClass } from "../core/tiers.js";
 
 function specData() {
   return (
@@ -28,7 +29,7 @@ function matchesFilters(entry) {
 
 function optionHtml(entry, i) {
   const tier = entry.tier || (i === 0 ? "BIS" : "ALT");
-  const tierClass = tier === "BIS" ? "tier-bis" : "tier-alt";
+  const tierClass = tierBadgeClass(tier);
   const isPlaceholder = entry.name.startsWith("—");
   const qClass = isPlaceholder ? "q-none" : `q-${entry.quality || "epic"}`;
   const nameHtml = isPlaceholder

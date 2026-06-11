@@ -3,6 +3,7 @@ import { els } from "../core/dom.js";
 import { areaOf } from "../core/areas.js";
 import { wowheadLink, refreshTooltips } from "../core/wowhead.js";
 import { getItemIndex } from "../core/itemIndex.js";
+import { TIER_ORDER, tierBadgeClass } from "../core/tiers.js";
 
 function usageMatchesFilters(u) {
   if (state.slotId !== "all" && u.slotId !== state.slotId) return false;
@@ -63,10 +64,10 @@ function buildUsages(usages) {
       const chips = [...cls.groups.values()]
         .map((g) => {
           chipCount++;
-          const badges = ["BIS", "ALT"]
+          const badges = TIER_ORDER
             .filter((t) => g.tiers[t] && g.tiers[t].length)
             .map((t) => {
-              const tierClass = t === "BIS" ? "tier-bis" : "tier-alt";
+              const tierClass = tierBadgeClass(t);
               return `<span class="tier-badge ${tierClass}">${t} ${formatPhaseRuns(g.tiers[t])}</span>`;
             })
             .join("");

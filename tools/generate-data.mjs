@@ -17,7 +17,7 @@ const DATA_DIR = path.join(REPO_ROOT, "js", "data");
 
 const ADDON_PATH =
   process.argv[2] ||
-  "C:\\Program Files (x86)\\World of Warcraft\\_anniversary_\\Interface\\AddOns\\LoonBestInSlot";
+  "e:\\World of Warcraft\\_anniversary_\\Interface\\AddOns\\LoonBestInSlot";
 const DB_FILE = path.join(ADDON_PATH, "DB", "ItemSources.lua");
 const GUIDES_DIR = path.join(ADDON_PATH, "Guides");
 
@@ -112,10 +112,23 @@ const SLOT_MAP = {
 };
 
 const REGISTER_RE = /local\s+(\w+)\s*=\s*LBIS:RegisterSpec\(\s*(.+?)\s*,\s*(.+?)\s*,\s*"(\d+)"\s*\)/g;
-const ADDITEM_RE = /LBIS:AddItem\(\s*(\w+)\s*,\s*"(\d*)"\s*,\s*(.+?)\s*,\s*"(\w+)"\s*\)/g;
+const ADDITEM_RE = /LBIS:AddItem\(\s*(\w+)\s*,\s*"(\d*)"\s*,\s*(.+?)\s*,\s*"([^"]+)"\s*\)/g;
 
 function slug(s) {
   return s.toLowerCase().replace(/[^a-z0-9]+/g, "");
+}
+
+/** Normalise an addon tier label into a canonical tier token.
+ *  The addon uses "BIS"/"Alt" plus tank role suffixes ("Thrt", "Mit", "Stam"),
+ *  e.g. "BIS Thrt", "Alt Mit". We preserve the base rank and the role suffix
+ *  so the tank Threat/Stamina/Mitigation variants survive into the app data. */
+function normTier(raw) {
+  const t = String(raw).trim().toLowerCase();
+  const base = t.startsWith("bis") ? "BIS" : "ALT";
+  if (/thrt|threat/.test(t)) return `${base} Thrt`;
+  if (/mit/.test(t)) return `${base} Mit`;
+  if (/stam|\bsta\b/.test(t)) return `${base} Stam`;
+  return base;
 }
 
 /** Parse one guide file -> { class, spec, phases:{phaseId:{slotId:[{id,tier}]}} } */
@@ -157,7 +170,7 @@ function parseGuide(file) {
       continue;
     }
     const id = Number(idStr);
-    const tier = tierRaw.toUpperCase() === "BIS" ? "BIS" : "ALT";
+    const tier = normTier(tierRaw);
     const phaseId = `p${phaseNum}`;
 
     phases[phaseId] = phases[phaseId] || {};

@@ -15,16 +15,19 @@ filter. It's a pure static site — **no build step, no dependencies**.
 
 - Two views with tabbed switching: **By Class** and **By Item**
 - Class + spec selection with class colors and role/spec icons
-- Phase selector (P1–P5) with raid-tier hints
+- Phase selector (Pre-Raid + P1–P5) with raid-tier hints
 - Slot filter and a top-center **search** box (filters by item or source)
 - **Area filter** (Karazhan, SSC, Tempest Keep, Heroic Dungeons, Crafted,
   Reputation, PvP, …) classified automatically from each item's source
-- Up to **4 ranked options per slot** with **BIS / ALT** tags
+- Ranked options per slot with **BIS / ALT** tags, plus tank **Threat /
+  Mitigation / Stamina** variants (`BIS Thrt`, `BIS Mit`, `BIS Stam`, and their
+  `ALT` counterparts) shown as colour-coded badges
 - Item view collapses multi-phase usage into compact `BIS 1>2, 4` labels
 - Item names use WoW **quality colors** and show **Wowhead hover tooltips**
   (for entries with a real item id)
 - **Hash-based routing** with shareable URLs and working back/forward
   (`#/warrior`, `#/warrior/head`, `#/items`)
+- Data is **auto-generated** from the LoonBestInSlot addon (see below)
 - Modern dark-mode UI
 
 ## Run it
@@ -44,11 +47,12 @@ Or use the VS Code **Live Server** extension.
 
 The app is driven by the URL hash, so views and filters are shareable:
 
-| Hash                 | View                                    |
-| -------------------- | --------------------------------------- |
-| `#/<classId>`        | Class view, all slots                   |
-| `#/<classId>/<slot>` | Class view, filtered to a single slot   |
-| `#/items`            | Item reverse-lookup view                |
+| Hash                            | View                                      |
+| ------------------------------- | ----------------------------------------- |
+| `#/<classId>`                   | Class view, first spec, all slots         |
+| `#/<classId>/<specId>`          | Class view, spec, all slots               |
+| `#/<classId>/<specId>/<slotId>` | Class view, spec, filtered to one slot    |
+| `#/items`                       | Item reverse-lookup view                  |
 
 ## Project structure
 
@@ -57,6 +61,8 @@ loon-bis-tbc/
 ├── index.html               # markup + layout, loads js/main.js as a module
 ├── staticwebapp.config.json # Azure Static Web Apps SPA fallback + mime types
 ├── css/styles.css           # WoW-themed dark styling
+├── tools/
+│   └── generate-data.mjs    # regenerates js/data/* from the LoonBestInSlot addon
 └── js/
     ├── main.js              # entry point: routing, events, init
     ├── core/
@@ -65,11 +71,12 @@ loon-bis-tbc/
     │   ├── router.js        # buildHash() / parseHash() hash routing
     │   ├── areas.js         # areaOf() — classifies a source into an area
     │   ├── itemIndex.js     # reverse index used by the item view
+    │   ├── tiers.js         # tier badge classes + display order helpers
     │   └── wowhead.js       # Wowhead link building + tooltip refresh
-    ├── data/
+    ├── data/                # AUTO-GENERATED — do not edit by hand
     │   ├── index.js         # aggregates the per-class BiS into one BIS object
     │   ├── meta.js          # PHASES, SLOTS, CLASSES, and the it() helper
-    │   ├── items.js         # centralized ITEMS database + ref() helper
+    │   ├── items.js         # centralized ITEMS database (by id) + ref() helper
     │   └── <class>.js       # per-class BiS lists (warrior, mage, …)
     └── views/
         ├── controls.js      # sidebar tabs, class list, and filter dropdowns
@@ -79,40 +86,46 @@ loon-bis-tbc/
 
 ## Editing / extending the BiS data
 
-Items are defined **once** in the central database in
-[`js/data/items.js`](js/data/items.js) and **referenced** by key from the
-per-class files. This keeps item metadata (id, source, quality) in a single
-place.
+The `js/data/*` files are **auto-generated** and should not be edited by hand.
+They are produced from the [**LoonBestInSlot**](https://www.curseforge.com/wow/addons/loon-best-in-slot)
+addon's Lua database + per-spec guide files by
+[`tools/generate-data.mjs`](tools/generate-data.mjs).
 
-### 1. Add or edit an item in the database
+### Regenerate the data
 
-```js
-// js/data/items.js — ITEMS map
-export const ITEMS = {
-  warbringer_battle_helm: {
-    name: "Warbringer Battle-Helm",
-    id: 29011,            // numeric Wowhead item id (enables tooltip) or null
-    source: "Magtheridon's Lair",
-    quality: "epic",      // "epic" (default) | "rare" | "uncommon" | "legendary"
-  },
-  // …
-};
+```powershell
+# uses the default addon path baked into the script
+node tools/generate-data.mjs
+
+# or point at a specific addon copy
+node tools/generate-data.mjs "C:\path\to\Interface\AddOns\LoonBestInSlot"
 ```
 
-### 2. Reference items from a class file
+The script:
 
-Each class file (e.g. [`js/data/warrior.js`](js/data/warrior.js)) is shaped
-`spec → phase → slot → [options]`, built with the `ref()` helper:
+- parses `DB/ItemSources.lua` for item names + sources, and `Guides/*.lua`
+  for each spec's ranked lists,
+- writes the central [`js/data/items.js`](js/data/items.js) database (keyed by
+  numeric Wowhead item id), the per-class files, and
+  [`js/data/meta.js`](js/data/meta.js) (phases, slots, classes/specs),
+- prints a summary plus any warnings (missing guides, unknown slots, etc.).
+
+### Data shape
+
+Items live **once** in `items.js` keyed by their numeric id and are referenced
+from the per-class files via the `ref()` helper. Each class file is shaped
+`spec → phase → slot → [options]`:
 
 ```js
 import { ref } from "./items.js";
 
 export const warrior = {
-  fury: {
-    p1: {
+  protection: {
+    p0: {
       head: [
-        ref("warbringer_battle_helm"),   // #1 BIS (default tier)
-        ref("felsteel_helm", "ALT"),     // #2 ALT
+        ref(32083),                 // #1 BIS (default tier)
+        ref(27408, "BIS Thrt"),     // threat-focused alternative
+        ref(28350, "ALT Mit"),      // mitigation-focused alternative
       ],
       // …
     },
@@ -120,20 +133,21 @@ export const warrior = {
 };
 ```
 
-- `ref(key, tier)` — `key` is the `ITEMS` map key; `tier` is `"BIS"` (default)
-  or `"ALT"`. Unknown keys log a console warning and render a fallback entry.
-- `rings` and `trinkets` are single slots that list the top options together.
-- Provide a real numeric `id` to get a rich Wowhead tooltip on hover; without
-  one the link falls back to a Wowhead name search (no tooltip).
+- `ref(id, tier)` — `id` is the numeric Wowhead item id; `tier` is `"BIS"`
+  (default) or `"ALT"`. Tank specs also use the role-tagged variants
+  `BIS Thrt` / `BIS Mit` / `BIS Stam` and their `ALT` equivalents.
+- Tier badge colours and display order are defined in
+  [`js/core/tiers.js`](js/core/tiers.js): BIS (green), ALT (amber), with the
+  tank modifiers Threat (red), Mitigation (purple), and Stamina (blue).
 - The **area filter** is derived automatically from each item's `source`
   string (see `areaOf()` in [`js/core/areas.js`](js/core/areas.js)).
 
-### 3. Add a class or spec
+### Add a class or spec
 
-Classes, specs, slots, and phases are defined in
-[`js/data/meta.js`](js/data/meta.js). Add a new class file under `js/data/`,
-register it in [`js/data/index.js`](js/data/index.js), and add the matching
-entry (with `specs` and colors) to `CLASSES` in `meta.js`.
+Class/spec metadata, the guide-file mapping, and tier handling are driven by
+the tables near the top of [`tools/generate-data.mjs`](tools/generate-data.mjs)
+(`SPEC_META`, `GUIDE_ORDER`, `SLOT_MAP`). Update those and re-run the generator
+rather than editing `js/data/meta.js` directly.
 
 ## Deployment
 

@@ -127,7 +127,7 @@ export const priest = {
       },
       p1: {
         head: [ref(29049), ref(28413, "ALT"), ref(32090, "ALT"), ref(29174, "ALT"), ref(24264, "ALT"), ref(28756, "ALT")],
-        neck: [ref(30726), ref(28822), ref(28609), ref(30377, "ALT"), ref(29374, "ALT")],
+        neck: [ref(30726), ref(28822), ref(28609), ref(28731, "BIS Stam"), ref(30377, "ALT"), ref(29374, "ALT")],
         shoulders: [ref(21874), ref(29054), ref(27775, "ALT"), ref(28612, "ALT")],
         back: [ref(28765), ref(31329), ref(29375, "ALT"), ref(29354, "ALT"), ref(28582, "ALT")],
         chest: [ref(21875), ref(29050), ref(28578, "ALT"), ref(28230, "ALT")],
