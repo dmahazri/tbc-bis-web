@@ -106,7 +106,7 @@ const SLOT_MAP = {
   Trinket: "trinkets",
   "Main Hand": "mainhand",
   "Off Hand": "offhand",
-  "Two Hand": "mainhand",
+  "Two Hand": "twohand",
   "Ranged/Relic": "ranged",
   "Main Hand~Off Hand": "mainhand",
 };
@@ -273,6 +273,7 @@ const SLOTS = [
   { id: "trinkets", name: "Trinkets", icon: "inv_jewelry_talisman_05" },
   { id: "mainhand", name: "Main Hand", icon: "inv_sword_04" },
   { id: "offhand", name: "Off Hand", icon: "inv_shield_04" },
+  { id: "twohand", name: "Two Hand", icon: "inv_sword_27" },
   { id: "ranged", name: "Ranged / Relic", icon: "inv_weapon_bow_07" },
 ];
 const SLOT_IDS = SLOTS.map((s) => s.id);

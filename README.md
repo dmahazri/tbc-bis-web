@@ -22,12 +22,16 @@ filter. It's a pure static site — **no build step, no dependencies**.
 - Ranked options per slot with **BIS / ALT** tags, plus tank **Threat /
   Mitigation / Stamina** variants (`BIS Thrt`, `BIS Mit`, `BIS Stam`, and their
   `ALT` counterparts) shown as colour-coded badges
+- Dedicated **Two Hand** slot so two-handed weapons aren't hidden behind
+  one-handers in the Main Hand list
+- **Cumulative phases** — selecting a phase also carries forward gear from
+  earlier phases that is still best-in-slot, with the current phase's picks on
+  top
 - Item view collapses multi-phase usage into compact `BIS 1>2, 4` labels
 - Item names use WoW **quality colors** and show **Wowhead hover tooltips**
   (for entries with a real item id)
 - **Hash-based routing** with shareable URLs and working back/forward
   (`#/warrior`, `#/warrior/head`, `#/items`)
-- Data is **auto-generated** from the LoonBestInSlot addon (see below)
 - Modern dark-mode UI
 
 ## Run it
@@ -61,8 +65,6 @@ loon-bis-tbc/
 ├── index.html               # markup + layout, loads js/main.js as a module
 ├── staticwebapp.config.json # Azure Static Web Apps SPA fallback + mime types
 ├── css/styles.css           # WoW-themed dark styling
-├── tools/
-│   └── generate-data.mjs    # regenerates js/data/* from the LoonBestInSlot addon
 └── js/
     ├── main.js              # entry point: routing, events, init
     ├── core/
@@ -73,8 +75,8 @@ loon-bis-tbc/
     │   ├── itemIndex.js     # reverse index used by the item view
     │   ├── tiers.js         # tier badge classes + display order helpers
     │   └── wowhead.js       # Wowhead link building + tooltip refresh
-    ├── data/                # AUTO-GENERATED — do not edit by hand
-    │   ├── index.js         # aggregates the per-class BiS into one BIS object
+    ├── data/
+    │   ├── index.js         # aggregates per-class BiS + cumulative phase merge
     │   ├── meta.js          # PHASES, SLOTS, CLASSES, and the it() helper
     │   ├── items.js         # centralized ITEMS database (by id) + ref() helper
     │   └── <class>.js       # per-class BiS lists (warrior, mage, …)
@@ -83,71 +85,6 @@ loon-bis-tbc/
         ├── classView.js     # renders the "By Class" gear list
         └── itemView.js      # renders the "By Item" reverse lookup
 ```
-
-## Editing / extending the BiS data
-
-The `js/data/*` files are **auto-generated** and should not be edited by hand.
-They are produced from the [**LoonBestInSlot**](https://www.curseforge.com/wow/addons/loon-best-in-slot)
-addon's Lua database + per-spec guide files by
-[`tools/generate-data.mjs`](tools/generate-data.mjs).
-
-### Regenerate the data
-
-```powershell
-# uses the default addon path baked into the script
-node tools/generate-data.mjs
-
-# or point at a specific addon copy
-node tools/generate-data.mjs "C:\path\to\Interface\AddOns\LoonBestInSlot"
-```
-
-The script:
-
-- parses `DB/ItemSources.lua` for item names + sources, and `Guides/*.lua`
-  for each spec's ranked lists,
-- writes the central [`js/data/items.js`](js/data/items.js) database (keyed by
-  numeric Wowhead item id), the per-class files, and
-  [`js/data/meta.js`](js/data/meta.js) (phases, slots, classes/specs),
-- prints a summary plus any warnings (missing guides, unknown slots, etc.).
-
-### Data shape
-
-Items live **once** in `items.js` keyed by their numeric id and are referenced
-from the per-class files via the `ref()` helper. Each class file is shaped
-`spec → phase → slot → [options]`:
-
-```js
-import { ref } from "./items.js";
-
-export const warrior = {
-  protection: {
-    p0: {
-      head: [
-        ref(32083),                 // #1 BIS (default tier)
-        ref(27408, "BIS Thrt"),     // threat-focused alternative
-        ref(28350, "ALT Mit"),      // mitigation-focused alternative
-      ],
-      // …
-    },
-  },
-};
-```
-
-- `ref(id, tier)` — `id` is the numeric Wowhead item id; `tier` is `"BIS"`
-  (default) or `"ALT"`. Tank specs also use the role-tagged variants
-  `BIS Thrt` / `BIS Mit` / `BIS Stam` and their `ALT` equivalents.
-- Tier badge colours and display order are defined in
-  [`js/core/tiers.js`](js/core/tiers.js): BIS (green), ALT (amber), with the
-  tank modifiers Threat (red), Mitigation (purple), and Stamina (blue).
-- The **area filter** is derived automatically from each item's `source`
-  string (see `areaOf()` in [`js/core/areas.js`](js/core/areas.js)).
-
-### Add a class or spec
-
-Class/spec metadata, the guide-file mapping, and tier handling are driven by
-the tables near the top of [`tools/generate-data.mjs`](tools/generate-data.mjs)
-(`SPEC_META`, `GUIDE_ORDER`, `SLOT_MAP`). Update those and re-run the generator
-rather than editing `js/data/meta.js` directly.
 
 ## Deployment
 

@@ -1,4 +1,4 @@
-import { PHASES, SLOTS, BIS } from "../data/index.js";
+import { PHASES, SLOTS, getSpecData } from "../data/index.js";
 import { state, getClass } from "../core/state.js";
 import { els } from "../core/dom.js";
 import { areaOf } from "../core/areas.js";
@@ -6,12 +6,7 @@ import { wowheadLink, refreshTooltips } from "../core/wowhead.js";
 import { tierBadgeClass } from "../core/tiers.js";
 
 function specData() {
-  return (
-    (BIS[state.classId] &&
-      BIS[state.classId][state.specId] &&
-      BIS[state.classId][state.specId][state.phaseId]) ||
-    null
-  );
+  return getSpecData(state.classId, state.specId, state.phaseId);
 }
 
 function matchesFilters(entry) {

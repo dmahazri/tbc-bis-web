@@ -17,7 +17,7 @@ export const paladin = {
         feet: [ref(25686), ref(28176), ref(27867, "ALT"), ref(28318, "ALT"), ref(28645, "ALT"), ref(29000, "ALT")],
         rings: [ref(30834), ref(29177), ref(31920), ref(30365, "ALT"), ref(31380, "ALT")],
         trinkets: [ref(19343), ref(29383), ref(28288), ref(22954, "ALT"), ref(23041, "ALT"), ref(29776, "ALT"), ref(28034, "ALT")],
-        mainhand: [ref(28429, "BIS Mit"), ref(28441, "BIS Mit"), ref(24550), ref(31318, "ALT"), ref(29356, "ALT"), ref(31322, "ALT"), ref(23541, "ALT")],
+        twohand: [ref(28429, "BIS Mit"), ref(28441, "BIS Mit"), ref(24550), ref(31318, "ALT"), ref(29356, "ALT"), ref(31322, "ALT"), ref(23541, "ALT")],
         ranged: [ref(27484), ref(31033, "ALT"), ref(22401, "ALT"), ref(23203, "ALT")],
       },
       p1: {
@@ -33,7 +33,7 @@ export const paladin = {
         feet: [ref(28608), ref(28545), ref(28746, "ALT"), ref(28176, "ALT"), ref(25686, "ALT")],
         rings: [ref(30834), ref(28757), ref(28730, "ALT"), ref(28649, "ALT"), ref(31920, "ALT"), ref(29177, "ALT"), ref(30738, "ALT"), ref(29283, "ALT")],
         trinkets: [ref(28830), ref(19343), ref(29383), ref(28288), ref(22954, "ALT"), ref(23041, "ALT"), ref(28034, "ALT"), ref(23206, "ALT")],
-        mainhand: [ref(28429, "BIS Mit"), ref(28441, "BIS Mit"), ref(30722), ref(28773, "ALT"), ref(28774, "ALT"), ref(24550, "ALT"), ref(28800, "ALT")],
+        twohand: [ref(28429, "BIS Mit"), ref(28441, "BIS Mit"), ref(30722), ref(28773, "ALT"), ref(28774, "ALT"), ref(24550, "ALT"), ref(28800, "ALT")],
         ranged: [ref(27484), ref(31033, "ALT"), ref(22401, "ALT"), ref(23203, "ALT")],
       },
       p2: {
@@ -49,7 +49,7 @@ export const paladin = {
         feet: [ref(30081), ref(28545, "ALT"), ref(29951, "ALT"), ref(30104, "ALT"), ref(28608, "ALT")],
         rings: [ref(30834), ref(29997), ref(30061), ref(28757, "ALT"), ref(28730, "ALT"), ref(30738, "ALT")],
         trinkets: [ref(29383), ref(28830), ref(38287, "ALT"), ref(30627, "ALT"), ref(23206, "ALT"), ref(28034, "ALT"), ref(22954, "ALT"), ref(28288, "ALT"), ref(23041, "ALT"), ref(19406, "ALT")],
-        mainhand: [ref(28430), ref(29993), ref(30090, "ALT"), ref(28773, "ALT"), ref(28442, "ALT"), ref(31984, "ALT")],
+        twohand: [ref(28430), ref(29993), ref(30090, "ALT"), ref(28773, "ALT"), ref(28442, "ALT"), ref(31984, "ALT")],
         ranged: [ref(27484), ref(22401, "ALT"), ref(23203, "ALT")],
       },
       p3: {
@@ -65,7 +65,7 @@ export const paladin = {
         feet: [ref(32366), ref(28545, "ALT"), ref(32345, "ALT"), ref(30081, "ALT"), ref(28608, "ALT")],
         rings: [ref(30834), ref(32526), ref(29997), ref(30061, "ALT"), ref(30738, "ALT"), ref(28757, "ALT"), ref(32335, "ALT"), ref(28730, "ALT")],
         trinkets: [ref(29383), ref(28830), ref(38287, "ALT"), ref(30627, "ALT"), ref(23206, "ALT"), ref(32505, "ALT"), ref(28288, "ALT"), ref(28034, "ALT"), ref(22954, "ALT"), ref(23041, "ALT"), ref(19406, "ALT")],
-        mainhand: [ref(32332), ref(29993, "ALT"), ref(30902, "ALT"), ref(28442, "ALT"), ref(33688, "ALT"), ref(31984, "ALT"), ref(28430, "ALT"), ref(30090, "ALT"), ref(28773, "ALT")],
+        twohand: [ref(32332), ref(29993, "ALT"), ref(30902, "ALT"), ref(28442, "ALT"), ref(33688, "ALT"), ref(31984, "ALT"), ref(28430, "ALT"), ref(30090, "ALT"), ref(28773, "ALT")],
         ranged: [ref(27484), ref(22401, "ALT"), ref(23203, "ALT")],
       },
       p4: {
@@ -81,7 +81,7 @@ export const paladin = {
         feet: [ref(32366), ref(28545, "ALT"), ref(32345, "ALT"), ref(30081, "ALT"), ref(28608, "ALT")],
         rings: [ref(30834), ref(32526), ref(29997), ref(33496, "ALT"), ref(30061, "ALT"), ref(30738, "ALT"), ref(32335, "ALT"), ref(28757, "ALT"), ref(28730, "ALT")],
         trinkets: [ref(28830), ref(33831), ref(28288, "ALT"), ref(38287, "ALT"), ref(23206, "ALT"), ref(30627, "ALT"), ref(29383, "ALT"), ref(32505, "ALT"), ref(28034, "ALT"), ref(22954, "ALT"), ref(23041, "ALT"), ref(19406, "ALT")],
-        mainhand: [ref(32332), ref(29993, "ALT"), ref(30902, "ALT"), ref(28442, "ALT"), ref(33688, "ALT"), ref(31984, "ALT"), ref(28430, "ALT"), ref(30090, "ALT"), ref(28773, "ALT")],
+        twohand: [ref(32332), ref(29993, "ALT"), ref(30902, "ALT"), ref(28442, "ALT"), ref(33688, "ALT"), ref(31984, "ALT"), ref(28430, "ALT"), ref(30090, "ALT"), ref(28773, "ALT")],
         ranged: [ref(27484), ref(22401, "ALT"), ref(23203, "ALT"), ref(33503, "ALT")],
       },
       p5: {
@@ -97,7 +97,7 @@ export const paladin = {
         feet: [ref(34561), ref(28608, "ALT"), ref(32366, "ALT"), ref(28545, "ALT"), ref(32345, "ALT"), ref(30081, "ALT")],
         rings: [ref(34361), ref(34189), ref(29997, "ALT"), ref(32335, "ALT"), ref(30834, "ALT"), ref(33496, "ALT"), ref(32526, "ALT"), ref(30061, "ALT"), ref(30738, "ALT"), ref(28757, "ALT"), ref(28730, "ALT")],
         trinkets: [ref(34472), ref(34427), ref(23206, "ALT"), ref(35702, "ALT"), ref(28830, "ALT"), ref(29383, "ALT"), ref(33831, "ALT"), ref(28288, "ALT"), ref(38287, "ALT"), ref(30627, "ALT"), ref(32505, "ALT"), ref(28034, "ALT"), ref(22954, "ALT"), ref(23041, "ALT"), ref(19406, "ALT")],
-        mainhand: [ref(34247), ref(34183), ref(30902, "ALT"), ref(33688, "ALT"), ref(32332, "ALT"), ref(29993, "ALT"), ref(34891, "ALT"), ref(33478, "ALT"), ref(28430, "ALT")],
+        twohand: [ref(34247), ref(34183), ref(30902, "ALT"), ref(33688, "ALT"), ref(32332, "ALT"), ref(29993, "ALT"), ref(34891, "ALT"), ref(33478, "ALT"), ref(28430, "ALT")],
         ranged: [ref(27484), ref(22401, "ALT"), ref(23203, "ALT"), ref(33503, "ALT")],
       },
     },

@@ -1,4 +1,4 @@
-import { CLASSES, PHASES, SLOTS, BIS } from "../data/index.js";
+import { CLASSES, PHASES, SLOTS, getSpecData } from "../data/index.js";
 import { state } from "../core/state.js";
 import { els } from "../core/dom.js";
 import { areaOf } from "../core/areas.js";
@@ -76,12 +76,7 @@ export function renderSlotMenu() {
 }
 
 function specData() {
-  return (
-    (BIS[state.classId] &&
-      BIS[state.classId][state.specId] &&
-      BIS[state.classId][state.specId][state.phaseId]) ||
-    null
-  );
+  return getSpecData(state.classId, state.specId, state.phaseId);
 }
 
 /** Area options depend on the current view: the active spec/phase in class
